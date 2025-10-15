@@ -1,0 +1,29 @@
+{
+  "name": "javascript_store",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend API for JavaScript Store - E-commerce platform built with Express, TypeScript and PostgreSQL",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec \"node --loader ts-node/esm src/index.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ajimenez",
+  "license": "ISC",
+  "dependencies": {
+    "@types/pg": "^8.15.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.7.2",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
