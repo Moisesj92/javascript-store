@@ -1,0 +1,88 @@
+# ============================================================
+# GLOBAL
+# ============================================================
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+.pnpm-debug.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Logs
+logs
+*.log
+*.log.*
+*.out
+*.pid
+*.seed
+*.pid.lock
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor configs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ============================================================
+# BACKEND (Express + TypeScript)
+# ============================================================
+
+/backend/dist/
+/backend/build/
+/backend/node_modules/
+/backend/coverage/
+/backend/tsconfig.tsbuildinfo
+
+# Prisma / Sequelize / TypeORM (si los usas)
+/backend/prisma/generated/
+/backend/prisma/migrations/
+/backend/.typeorm-cache/
+/backend/.sequelize-meta/
+
+# ============================================================
+# FRONTEND (React + Vite + TypeScript)
+# ============================================================
+
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/coverage/
+/frontend/.eslintcache
+/frontend/.turbo/
+/frontend/build/
+/frontend/.next/
+
+# React testing
+/frontend/jest-html-reporters-*.html
+
+# ============================================================
+# DOCKER
+# ============================================================
+
+/docker/*.pid
+/docker/*.log
+/docker/data/
+/docker/postgres-data/
+/docker/volumes/
+/docker/tmp/
+
+# ============================================================
+# OTHER
+# ============================================================
+
+*.local
+*.iml
