@@ -196,10 +196,10 @@ describe("Category Routes", () => {
 
       (mockPool.query as jest.MockedFunction<any>)
         .mockResolvedValueOnce({
-          rows: [{ count: "0" }], // ProductCheck primero
+          rows: [{ count: "0" }],
         })
         .mockResolvedValueOnce({
-          rows: [mockDeletedCategory], // DELETE después
+          rows: [mockDeletedCategory],
         });
 
       // Act & Assert

@@ -307,10 +307,10 @@ describe("Category Controller", () => {
 
       (mockPool.query as jest.MockedFunction<any>)
         .mockResolvedValueOnce({
-          rows: [{ count: "0" }], // ProductCheck
+          rows: [{ count: "0" }],
         })
         .mockResolvedValueOnce({
-          rows: [mockDeletedCategory], // DELETE
+          rows: [mockDeletedCategory],
         });
 
       // Act
@@ -329,10 +329,10 @@ describe("Category Controller", () => {
       // Arrange
       (mockPool.query as jest.MockedFunction<any>)
         .mockResolvedValueOnce({
-          rows: [{ count: "0" }], // ProductCheck
+          rows: [{ count: "0" }],
         })
         .mockResolvedValueOnce({
-          rows: [], // DELETE no encuentra nada
+          rows: [],
         });
 
       // Act
@@ -346,7 +346,7 @@ describe("Category Controller", () => {
     });
 
     it("should return 400 when category has associated products", async () => {
-      // Arrange - Nuevo test para verificar la restricción
+      // Arrange
       (mockPool.query as jest.MockedFunction<any>).mockResolvedValueOnce({
         rows: [{ count: "3" }],
       });

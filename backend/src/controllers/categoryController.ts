@@ -60,7 +60,6 @@ export const createCategory = async (req: Request, res: Response) => {
   try {
     const { name }: CreateCategoryRequest = req.body;
 
-    // Validar que el nombre esté presente
     if (!name || !name.trim()) {
       return res.status(400).json({
         success: false,
@@ -93,7 +92,6 @@ export const updateCategory = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name }: UpdateCategoryRequest = req.body;
 
-    // Validar que el nombre esté presente
     if (!name || !name.trim()) {
       return res.status(400).json({
         success: false,
@@ -132,7 +130,6 @@ export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    // Verificar si la categoría tiene productos asociados
     const productCheck = await pool.query(
       "SELECT COUNT(*) FROM products WHERE category_id = $1",
       [id]
@@ -146,7 +143,6 @@ export const deleteCategory = async (req: Request, res: Response) => {
       });
     }
 
-    // Eliminar la categoría
     const result = await pool.query(
       "DELETE FROM categories WHERE id = $1 RETURNING *",
       [id]

@@ -96,7 +96,6 @@ export const updateProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updates: UpdateProductRequest = req.body;
 
-    // Construir query dinámicamente
     const fields = Object.keys(updates);
     const values = Object.values(updates);
 

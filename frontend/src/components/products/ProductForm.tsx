@@ -79,7 +79,6 @@ export function ProductForm({
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    // Limpiar error cuando el usuario empieza a escribir
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: "" }));
     }
