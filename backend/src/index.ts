@@ -2,8 +2,7 @@ import express from "express";
 import cors from "cors";
 import type { Request, Response } from "express";
 import dotenv from "dotenv";
-import productRoutes from "./routes/productRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
+import routes from "./routes/index.js";
 
 dotenv.config();
 const app = express();
@@ -26,8 +25,7 @@ app.get("/", (request: Request, response: Response) => {
   response.status(200).send("Hello World!!!!!");
 });
 
-app.use("/api/products", productRoutes);
-app.use("/api/categories", categoryRoutes);
+app.use("/api", routes);
 
 app
   .listen(PORT, () => {
