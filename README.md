@@ -168,7 +168,3 @@ The frontend requires:
 - `POST /api/products` - Create new product
 - `PUT /api/products/:id` - Update product
 - `DELETE /api/products/:id` - Delete product
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
