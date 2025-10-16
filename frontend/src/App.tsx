@@ -1,31 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { Product } from "../../shared/types/Product";
+import { useProducts } from "./hooks/useProducts";
+import { ProductCard } from "./components/products/ProductCard";
+import { ProductModal } from "./components/products/ProductModal";
 
 function App() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    products,
+    loading,
+    error,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+  } = useProducts();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
+  const handleCreateProduct = () => {
+    setEditingProduct(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    if (confirm("¿Estás seguro de eliminar este producto?")) {
       try {
-        const apiUrl =
-          import.meta.env.VITE_API_URL || "http://localhost:3000/api";
-
-        const response = await fetch(`${apiUrl}/products`);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const { data } = await response.json();
-        setProducts(data);
-      } catch {
-        setError("Error al cargar los productos");
+        await deleteProduct(id);
+      } catch (err) {
+        alert("Error al eliminar producto");
       }
-    };
+    }
+  };
 
-    fetchProducts();
-  }, []);
+  const handleSaveProduct = async (productData: Omit<Product, "id">) => {
+    try {
+      if (editingProduct) {
+        await updateProduct(editingProduct.id, productData);
+      } else {
+        await createProduct(productData);
+      }
+      setIsModalOpen(false);
+      setEditingProduct(null);
+    } catch (err) {
+      alert("Error al guardar producto");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">Cargando productos...</div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -46,44 +77,48 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm grid grid-cols-1 md:grid-cols-2 items-center">
         <div className="px-4 py-6">
           <h1 className="text-2xl font-bold text-gray-900">Tienda</h1>
           <p className="text-gray-600 text-sm mt-1">
             {products.length} productos disponibles
           </p>
         </div>
+        <div className="justify-self-end px-4 py-6">
+          <button
+            onClick={handleCreateProduct}
+            className="bg-blue-900 text-white p-2 rounded-lg"
+          >
+            Crear Nuevo Producto
+          </button>
+        </div>
       </header>
 
       {/* Products Grid */}
       <main className="px-4 py-6">
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {products.map((product) => (
-            <div
+            <ProductCard
               key={product.id}
-              className="bg-white rounded-lg shadow-sm overflow-hidden"
-            >
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h2 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
-                    {product.name}
-                  </h2>
-                </div>
-
-                <p className="text-sm text-gray-500 mb-2 capitalize">
-                  {product.category_name}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-600">
-                    ${product.price}
-                  </span>
-                </div>
-              </div>
-            </div>
+              product={product}
+              onEdit={handleEditProduct}
+              onDelete={handleDeleteProduct}
+            />
           ))}
         </div>
       </main>
+
+      {/* Product Modal */}
+      {isModalOpen && (
+        <ProductModal
+          product={editingProduct}
+          onSave={handleSaveProduct}
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingProduct(null);
+          }}
+        />
+      )}
     </div>
   );
 }
