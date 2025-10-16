@@ -1,17 +1,28 @@
 import { useState } from "react";
 import type { Product } from "../../../../shared/types/Product";
+import type { Category } from "../../../../shared/types/Category";
 import { ProductForm } from "./ProductForm";
 
 interface ProductModalProps {
   product: Product | null;
-  onSave: (productData: Omit<Product, "id">) => Promise<void>;
+  categories: Category[];
+  onSave: (
+    productData: Omit<Product, "id" | "created_at" | "updated_at">
+  ) => Promise<void>;
   onClose: () => void;
 }
 
-export function ProductModal({ product, onSave, onClose }: ProductModalProps) {
+export function ProductModal({
+  product,
+  categories,
+  onSave,
+  onClose,
+}: ProductModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (productData: Omit<Product, "id">) => {
+  const handleSubmit = async (
+    productData: Omit<Product, "id" | "created_at" | "updated_at">
+  ) => {
     setIsSubmitting(true);
     try {
       await onSave(productData);
@@ -54,6 +65,7 @@ export function ProductModal({ product, onSave, onClose }: ProductModalProps) {
             onSubmit={handleSubmit}
             onCancel={onClose}
             isSubmitting={isSubmitting}
+            categories={categories}
           />
         </div>
       </div>

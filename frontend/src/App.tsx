@@ -3,6 +3,7 @@ import type { Product } from "../../shared/types/Product";
 import { useProducts } from "./hooks/useProducts";
 import { ProductCard } from "./components/products/ProductCard";
 import { ProductModal } from "./components/products/ProductModal";
+import { useCategories } from "./hooks/useCategories";
 
 function App() {
   const {
@@ -13,6 +14,7 @@ function App() {
     updateProduct,
     deleteProduct,
   } = useProducts();
+  const { categories } = useCategories();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
@@ -26,17 +28,19 @@ function App() {
     setIsModalOpen(true);
   };
 
-  const handleDeleteProduct = async (id: string) => {
+  const handleDeleteProduct = async (id: number) => {
     if (confirm("¿Estás seguro de eliminar este producto?")) {
       try {
         await deleteProduct(id);
-      } catch (err) {
+      } catch {
         alert("Error al eliminar producto");
       }
     }
   };
 
-  const handleSaveProduct = async (productData: Omit<Product, "id">) => {
+  const handleSaveProduct = async (
+    productData: Omit<Product, "id" | "created_at" | "updated_at">
+  ) => {
     try {
       if (editingProduct) {
         await updateProduct(editingProduct.id, productData);
@@ -45,7 +49,7 @@ function App() {
       }
       setIsModalOpen(false);
       setEditingProduct(null);
-    } catch (err) {
+    } catch {
       alert("Error al guardar producto");
     }
   };
@@ -103,6 +107,7 @@ function App() {
               product={product}
               onEdit={handleEditProduct}
               onDelete={handleDeleteProduct}
+              categories={categories}
             />
           ))}
         </div>
@@ -117,6 +122,7 @@ function App() {
             setIsModalOpen(false);
             setEditingProduct(null);
           }}
+          categories={categories}
         />
       )}
     </div>

@@ -3,6 +3,7 @@ import cors from "cors";
 import type { Request, Response } from "express";
 import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -26,6 +27,7 @@ app.get("/", (request: Request, response: Response) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app
   .listen(PORT, () => {

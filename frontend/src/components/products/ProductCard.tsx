@@ -1,12 +1,23 @@
 import type { Product } from "../../../../shared/types/Product";
+import type { Category } from "../../../../shared/types/Category";
 
 interface ProductCardProps {
   product: Product;
+  categories: Category[];
   onEdit: (product: Product) => void;
   onDelete: (id: number) => void;
 }
 
-export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
+export function ProductCard({
+  product,
+  categories,
+  onEdit,
+  onDelete,
+}: ProductCardProps) {
+  const categoryName =
+    categories.find((cat) => cat.id === product.category_id)?.name ||
+    "Sin categoría";
+
   return (
     <div className="bg-white rounded-lg shadow-sm overflow-hidden">
       <div className="p-4">
@@ -16,9 +27,7 @@ export function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
           </h2>
         </div>
 
-        <p className="text-sm text-gray-500 mb-2 capitalize">
-          {product.category_name}
-        </p>
+        <p className="text-sm text-gray-500 mb-2 capitalize">{categoryName}</p>
 
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-green-600">

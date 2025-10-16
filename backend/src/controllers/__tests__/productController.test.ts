@@ -5,7 +5,7 @@ import express from "express";
 import type {
   CreateProductRequest,
   UpdateProductRequest,
-} from "../../types/Product.js";
+} from "../../../../shared/types/Product";
 
 const mockPool = {
   query: jest.fn() as jest.MockedFunction<any>,
@@ -52,7 +52,6 @@ describe("Product Controller", () => {
           price: 99.99,
           stock: 10,
           category_id: 1,
-          category_name: "Electronics",
           created_at: "2025-10-16T01:15:56.621Z",
           updated_at: "2025-10-16T01:15:56.621Z",
         },
@@ -62,7 +61,6 @@ describe("Product Controller", () => {
           price: 49.99,
           stock: 5,
           category_id: 2,
-          category_name: "Books",
           created_at: "2025-10-16T01:15:56.621Z",
           updated_at: "2025-10-16T01:15:56.621Z",
         },
@@ -82,7 +80,7 @@ describe("Product Controller", () => {
       });
 
       expect(mockPool.query).toHaveBeenCalledWith(
-        expect.stringContaining("SELECT p.*, c.name as category_name")
+        expect.stringContaining("SELECT p.*")
       );
     });
 
@@ -112,7 +110,6 @@ describe("Product Controller", () => {
         price: 99.99,
         stock: 10,
         category_id: 1,
-        category_name: "Electronics",
         created_at: "2025-10-16T01:15:56.621Z",
         updated_at: "2025-10-16T01:15:56.621Z",
       };
@@ -131,7 +128,7 @@ describe("Product Controller", () => {
       });
 
       expect(mockPool.query).toHaveBeenCalledWith(
-        expect.stringContaining("SELECT p.*, c.name as category_name"),
+        expect.stringContaining("SELECT p.*"),
         ["1"]
       );
     });

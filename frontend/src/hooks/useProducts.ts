@@ -21,7 +21,9 @@ export function useProducts() {
     }
   };
 
-  const createProduct = async (productData: Omit<Product, "id">) => {
+  const createProduct = async (
+    productData: Omit<Product, "id" | "created_at" | "updated_at">
+  ) => {
     try {
       const newProduct = await productService.create(productData);
       setProducts((prev) => [...prev, newProduct]);
@@ -32,7 +34,7 @@ export function useProducts() {
     }
   };
 
-  const updateProduct = async (id: string, productData: Partial<Product>) => {
+  const updateProduct = async (id: number, productData: Partial<Product>) => {
     try {
       const updatedProduct = await productService.update(id, productData);
       setProducts((prev) =>
@@ -45,7 +47,7 @@ export function useProducts() {
     }
   };
 
-  const deleteProduct = async (id: string) => {
+  const deleteProduct = async (id: number) => {
     try {
       await productService.delete(id);
       setProducts((prev) => prev.filter((p) => p.id !== id));

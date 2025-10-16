@@ -11,9 +11,8 @@ import type {
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
     const result = await pool.query(`
-      SELECT p.*, c.name as category_name 
-      FROM products p 
-      JOIN categories c ON p.category_id = c.id
+      SELECT p.*
+      FROM products p
       ORDER BY p.created_at DESC
     `);
 
@@ -36,9 +35,8 @@ export const getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
     const result = await pool.query(
       `
-      SELECT p.*, c.name as category_name 
-      FROM products p 
-      JOIN categories c ON p.category_id = c.id
+      SELECT p.* 
+      FROM products p
       WHERE p.id = $1
     `,
       [id]

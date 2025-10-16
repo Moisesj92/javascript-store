@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
 import type { Product } from "../../../../shared/types/Product";
+import type { Category } from "../../../../shared/types/Category";
 
 interface ProductFormProps {
   initialData?: Product | null;
-  onSubmit: (productData: Omit<Product, "id">) => Promise<void>;
+  categories: Category[];
+  onSubmit: (
+    productData: Omit<Product, "id" | "created_at" | "updated_at">
+  ) => Promise<void>;
   onCancel: () => void;
   isSubmitting?: boolean;
 }
 
-const CATEGORIES = [
-  { id: 1, name: "electronics" },
-  { id: 2, name: "clothing" },
-  { id: 3, name: "books" },
-  { id: 4, name: "home" },
-  { id: 5, name: "sports" },
-];
-
 export function ProductForm({
   initialData,
+  categories,
   onSubmit,
   onCancel,
   isSubmitting = false,
@@ -75,9 +72,6 @@ export function ProductForm({
       price: Number(formData.price),
       category_id: Number(formData.category_id),
       stock: Number(formData.stock || 0),
-      category_name: "", // Will be populated by backend
-      created_at: new Date(),
-      updated_at: new Date(),
     };
 
     await onSubmit(productData);
@@ -158,7 +152,7 @@ export function ProductForm({
           disabled={isSubmitting}
         >
           <option value="">Selecciona una categoría</option>
-          {CATEGORIES.map((category) => (
+          {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name.charAt(0).toUpperCase() + category.name.slice(1)}
             </option>
