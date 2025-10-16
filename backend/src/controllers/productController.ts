@@ -1,9 +1,11 @@
 import type { Request, Response } from "express";
 import pool from "../config/database.js";
 import type {
+  Product,
+  ProductRaw,
   CreateProductRequest,
   UpdateProductRequest,
-} from "../types/Product.js";
+} from "shared/types/Product.js";
 
 // GET /products - Obtener todos los productos
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -17,13 +19,13 @@ export const getAllProducts = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      data: result.rows,
+      data: result.rows as Product[],
     });
   } catch (error) {
-    console.error("Error getting products:", error);
+    console.error("Error fetching products:", error);
     res.status(500).json({
       success: false,
-      message: "Error getting products",
+      message: "Error fetching products",
     });
   }
 };
@@ -51,13 +53,13 @@ export const getProductById = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      data: result.rows[0],
+      data: result.rows[0] as Product,
     });
   } catch (error) {
-    console.error("Error getting product:", error);
+    console.error("Error fetching product:", error);
     res.status(500).json({
       success: false,
-      message: "Error getting product",
+      message: "Error fetching product",
     });
   }
 };
@@ -78,7 +80,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
     res.status(201).json({
       success: true,
-      data: result.rows[0],
+      data: result.rows[0] as ProductRaw,
       message: "Product created successfully",
     });
   } catch (error) {
@@ -128,7 +130,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      data: result.rows[0],
+      data: result.rows[0] as ProductRaw,
       message: "Product updated successfully",
     });
   } catch (error) {

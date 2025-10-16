@@ -34,5 +34,19 @@ services:
       retries: 5
       start_period: 10s
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
